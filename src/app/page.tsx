@@ -1,103 +1,78 @@
-import Image from "next/image";
+// src/app/page.tsx
+
+import Image from 'next/image'
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <main className="min-h-screen bg-gradient-to-tr from-blue-900 via-indigo-900 to-black text-white flex flex-col items-center justify-center px-6 py-12">
+      <section className="max-w-3xl text-center">
+        <h1 className="text-5xl font-extrabold mb-4 tracking-tight">
+          Olu's Data Engineering Portfolio
+        </h1>
+        <p className="text-xl text-gray-300 mb-8">
+          Modern Data Engineer specializing in Cloud Data Platforms, Real-time Analytics, and Scalable Data Architectures.
+        </p>
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
+          src="/profile-photo.jpg" // Add your photo in public/profile-photo.jpg
+          alt="Oonim Profile"
+          width={160}
+          height={160}
+          className="rounded-full mx-auto mb-8"
           priority
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+      <section className="max-w-4xl space-y-8 text-left">
+        <h2 className="text-3xl font-bold mb-4">Featured Projects</h2>
+
+        <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
+          <h3 className="text-2xl font-semibold mb-2">Global Supply Chain Monitor (Real-Time)</h3>
+          <p className="text-gray-300 mb-4">
+            A scalable cloud-based data platform that ingests real-time global shipping data, integrates IoT and satellite feeds, and provides actionable dashboards for supply chain resilience.
+          </p>
+          <ul className="list-disc list-inside text-gray-400">
+            <li>Streaming data ingestion with Apache Kafka and Azure Event Hubs</li>
+            <li>Data lakehouse architecture on GCP BigQuery & Azure Synapse</li>
+            <li>Power BI and Looker dashboards for executive insights</li>
+            <li>Automated anomaly detection using Python and ML models</li>
+          </ul>
+        </article>
+
+        <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
+          <h3 className="text-2xl font-semibold mb-2">Smart Energy Analytics Platform</h3>
+          <p className="text-gray-300 mb-4">
+            Developed a platform for utility companies to analyze energy consumption patterns using IoT sensor data and predictive analytics.
+          </p>
+          <ul className="list-disc list-inside text-gray-400">
+            <li>Azure Data Factory pipelines for ETL automation</li>
+            <li>Real-time Power BI reports with embedded analytics</li>
+            <li>Integration with GCP Vertex AI for demand forecasting</li>
+          </ul>
+        </article>
+      </section>
+
+      <section className="max-w-3xl mt-12 text-center">
+        <p className="text-gray-400">
+          Connect with me on{' '}
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://www.linkedin.com/in/oonim"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-indigo-400 underline"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
+            LinkedIn
+          </a>{' '}
+          or view my{' '}
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://github.com/oonim"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-indigo-400 underline"
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+            GitHub
+          </a>.
+        </p>
+      </section>
+    </main>
+  )
 }
