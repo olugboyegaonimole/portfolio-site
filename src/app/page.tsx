@@ -55,7 +55,7 @@ export default function Home() {
         <p className="text-gray-400">
           Connect with me on{' '}
           <a
-            href="https://www.linkedin.com/in/oonim"
+            href="https://www.linkedin.com/in/olugboyega-onimole-9b5009366"
             target="_blank"
             rel="noopener noreferrer"
             className="text-indigo-400 underline"
@@ -64,7 +64,7 @@ export default function Home() {
           </a>{' '}
           or view my{' '}
           <a
-            href="https://github.com/oonim"
+            href="https://github.com/olugboyegaonimole"
             target="_blank"
             rel="noopener noreferrer"
             className="text-indigo-400 underline"
