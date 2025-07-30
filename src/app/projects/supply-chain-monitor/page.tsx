@@ -57,6 +57,11 @@ export default function SupplyChainMonitorPage() {
           <RealTimeChart />
         </section>
 
+        {/* Anomaly Detection */}
+        <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
+          <AnomalyAlert />
+        </section>
+
         {/* Back link */}
         <div className="text-center mt-12">
           <Link href="/" className="text-indigo-400 underline hover:text-indigo-300">
