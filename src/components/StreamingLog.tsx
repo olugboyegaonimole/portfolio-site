@@ -1,25 +1,30 @@
-// src/components/StreamingLog.tsx
-
 'use client'
 
 import { useEffect, useState } from 'react'
+
+const generateLog = () => {
+  const ports = ['Shanghai', 'Rotterdam', 'Singapore', 'Los Angeles', 'Dubai']
+  const statuses = ['Arrived', 'Departed', 'Delayed', 'In Transit', 'Docked']
+  return `[${new Date().toLocaleTimeString()}] Vessel from ${ports[Math.floor(Math.random() * ports.length)]} - Status: ${statuses[Math.floor(Math.random() * statuses.length)]}`
+}
 
 export default function StreamingLog() {
   const [logs, setLogs] = useState<string[]>([])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newLog = `Ship ${Math.floor(Math.random() * 9000)} - Position Updated at ${new Date().toLocaleTimeString()}`
-      setLogs(prev => [newLog, ...prev.slice(0, 9)])
-    }, 1500)
+      setLogs((prev) =>
+        [...prev.slice(-9), generateLog()]
+      )
+    }, 2000)
 
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="bg-black border border-gray-700 rounded p-4 text-green-400 font-mono h-60 overflow-y-auto">
-      {logs.map((log, i) => (
-        <div key={i}>{log}</div>
+    <div className="bg-black/60 p-4 h-40 overflow-y-auto rounded-lg font-mono text-sm space-y-1 text-green-400">
+      {logs.map((log, idx) => (
+        <div key={idx}>{log}</div>
       ))}
     </div>
   )

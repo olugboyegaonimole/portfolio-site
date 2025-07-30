@@ -1,31 +1,28 @@
-// src/components/AnomalyAlert.tsx
-
 'use client'
 
 import { useEffect, useState } from 'react'
 
+const generateAlert = () => {
+  const routes = ['Route 12', 'Route 27', 'Route 91']
+  const delays = [(2.3).toFixed(1), (4.2).toFixed(1), (6.5).toFixed(1)]
+  const index = Math.floor(Math.random() * routes.length)
+  return `ALERT: ${routes[index]} anomaly — ETA deviation detected (↑ ${delays[index]} hrs)`
+}
+
 export default function AnomalyAlert() {
-  const [anomaly, setAnomaly] = useState<string | null>(null)
+  const [alert, setAlert] = useState<string | null>(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const trigger = Math.random()
-      if (trigger > 0.95) {
-        setAnomaly(`⚠️ Anomaly detected in Zone ${Math.ceil(Math.random() * 5)} at ${new Date().toLocaleTimeString()}`)
-        setTimeout(() => setAnomaly(null), 5000)
-      }
-    }, 2000)
+      setAlert(generateAlert())
+    }, 7000)
 
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="mt-4">
-      {anomaly && (
-        <div className="bg-red-700 text-white p-4 rounded shadow-lg animate-pulse">
-          {anomaly}
-        </div>
-      )}
+    <div className="bg-red-900/50 border border-red-700 p-4 rounded-lg text-red-300 font-mono transition-all duration-500 ease-in-out">
+      {alert ?? 'System nominal — no anomalies detected.'}
     </div>
   )
 }

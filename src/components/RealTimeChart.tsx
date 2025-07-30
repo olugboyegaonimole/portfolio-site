@@ -1,33 +1,43 @@
-// src/components/RealTimeChart.tsx
-
 'use client'
 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
 import { useEffect, useState } from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+
+const generateDataPoint = () => ({
+  time: new Date().toLocaleTimeString(),
+  value: Math.floor(Math.random() * 100) + 20,
+})
 
 export default function RealTimeChart() {
-  const [data, setData] = useState<{ time: string; value: number }[]>([])
+  const [data, setData] = useState([generateDataPoint()])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setData(prev => [
-        ...prev.slice(-19),
-        { time: new Date().toLocaleTimeString(), value: Math.floor(Math.random() * 100) },
-      ])
-    }, 1000)
+      setData((prev) =>
+        [...prev.slice(-19), generateDataPoint()]
+      )
+    }, 1500)
 
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="w-full h-64">
+    <div className="h-64">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="time" />
-          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+          <XAxis dataKey="time" stroke="#ccc" />
+          <YAxis stroke="#ccc" />
           <Tooltip />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" dot={false} />
+          <Line type="monotone" dataKey="value" stroke="#60a5fa" strokeWidth={2} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>
