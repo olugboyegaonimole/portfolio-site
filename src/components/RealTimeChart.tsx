@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import {
   LineChart,
   Line,
@@ -7,13 +8,12 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
+  ResponsiveContainer
 } from 'recharts'
-import { useEffect, useState } from 'react'
 
 const generateDataPoint = () => ({
   time: new Date().toLocaleTimeString(),
-  value: Math.floor(Math.random() * 100) + 20,
+  temperature: parseFloat((Math.random() * 10 + 15).toFixed(2)) // 15°C to 25°C
 })
 
 export default function RealTimeChart() {
@@ -21,11 +21,8 @@ export default function RealTimeChart() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setData((prev) =>
-        [...prev.slice(-19), generateDataPoint()]
-      )
-    }, 1500)
-
+      setData((prev) => [...prev.slice(-19), generateDataPoint()])
+    }, 2000)
     return () => clearInterval(interval)
   }, [])
 
@@ -33,11 +30,17 @@ export default function RealTimeChart() {
     <div className="h-64">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#555" />
           <XAxis dataKey="time" stroke="#ccc" />
-          <YAxis stroke="#ccc" />
+          <YAxis stroke="#ccc" domain={[10, 30]} />
           <Tooltip />
-          <Line type="monotone" dataKey="value" stroke="#60a5fa" strokeWidth={2} dot={false} />
+          <Line
+            type="monotone"
+            dataKey="temperature"
+            stroke="#60a5fa"
+            strokeWidth={2}
+            dot={false}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>
