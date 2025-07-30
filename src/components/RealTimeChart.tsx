@@ -1,48 +1,42 @@
+// src/components/RealTimeChart.tsx
+
 'use client'
 
 import { useEffect, useState } from 'react'
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer
-} from 'recharts'
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts'
+
+interface DataPoint {
+  timestamp: string
+  temperature: number
+}
 
 export default function RealTimeChart() {
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<DataPoint[]>([])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const interval = setInterval(async () => {
       const res = await fetch('/api/stream')
       const json = await res.json()
-      setData((prev) => [...prev.slice(-19), {
-        time: new Date(json.timestamp).toLocaleTimeString(),
-        temperature: json.temperature
-      }])
-    }
+      const newPoint: DataPoint = {
+        timestamp: new Date(json.timestamp).toLocaleTimeString(),
+        temperature: json.temperature,
+      }
 
-    const interval = setInterval(fetchData, 2000)
+      setData(prev => [...prev.slice(-9), newPoint]) // max 10 points
+    }, 3000)
+
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="h-64">
+    <div className="w-full h-64">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#555" />
-          <XAxis dataKey="time" stroke="#ccc" />
-          <YAxis stroke="#ccc" domain={[10, 30]} />
+          <CartesianGrid stroke="#444" />
+          <XAxis dataKey="timestamp" />
+          <YAxis />
           <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="temperature"
-            stroke="#60a5fa"
-            strokeWidth={2}
-            dot={false}
-          />
+          <Line type="monotone" dataKey="temperature" stroke="#4f46e5" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </div>
