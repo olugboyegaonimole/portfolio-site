@@ -7,10 +7,10 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-tr from-blue-900 via-indigo-900 to-black text-white flex flex-col items-center justify-center px-6 py-12">
       <section className="max-w-3xl text-center">
         <h1 className="text-5xl font-extrabold mb-4 tracking-tight">
-          Olu&rsquo;s Data Engineering Portfolio
+          Olu
         </h1>
         <p className="text-xl text-gray-300 mb-8">
-          Modern Data Engineer specializing in Cloud Data Platforms, Real-time Analytics, and Scalable Data Architectures.
+          Data Engineer specializing in Cloud Data Platforms, Real-time Analytics, and Scalable Data Architectures.
         </p>
         <Image
           src="/profile-photo.jpg" // Add your photo in public/profile-photo.jpg
