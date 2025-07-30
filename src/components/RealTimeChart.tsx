@@ -11,18 +11,20 @@ import {
   ResponsiveContainer
 } from 'recharts'
 
-const generateDataPoint = () => ({
-  time: new Date().toLocaleTimeString(),
-  temperature: parseFloat((Math.random() * 10 + 15).toFixed(2)) // 15°C to 25°C
-})
-
 export default function RealTimeChart() {
-  const [data, setData] = useState([generateDataPoint()])
+  const [data, setData] = useState<any[]>([])
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setData((prev) => [...prev.slice(-19), generateDataPoint()])
-    }, 2000)
+    const fetchData = async () => {
+      const res = await fetch('/api/stream')
+      const json = await res.json()
+      setData((prev) => [...prev.slice(-19), {
+        time: new Date(json.timestamp).toLocaleTimeString(),
+        temperature: json.temperature
+      }])
+    }
+
+    const interval = setInterval(fetchData, 2000)
     return () => clearInterval(interval)
   }, [])
 
