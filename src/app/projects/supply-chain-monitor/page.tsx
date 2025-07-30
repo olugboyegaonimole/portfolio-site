@@ -57,15 +57,6 @@ export default function SupplyChainMonitorPage() {
           <RealTimeChart />
         </section>
 
-        {/* Anomaly Detection */}
-        <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-semibold mb-2">🚨 Anomaly Detection</h2>
-          <p className="text-gray-400 mb-4">
-            Mock output from Python/ML pipelines detecting shipping delays or disruptions.
-          </p>
-          <AnomalyAlert />
-        </section>
-
         {/* Back link */}
         <div className="text-center mt-12">
           <Link href="/" className="text-indigo-400 underline hover:text-indigo-300">
