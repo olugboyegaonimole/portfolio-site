@@ -1,8 +1,8 @@
-// src/app/projects/supply-chain-monitor/components/AnomalyAlert.tsx
-
 'use client'
 
 import { useEffect, useState } from 'react'
+import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 
 interface StreamData {
   timestamp: string
@@ -15,16 +15,23 @@ export default function AnomalyAlert() {
   const [anomaly, setAnomaly] = useState<StreamData | null>(null)
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const res = await fetch('/api/stream')
-      const data: StreamData = await res.json()
+    const q = query(
+      collection(db, 'streamData'),
+      orderBy('timestamp', 'desc'),
+      limit(1)
+    )
 
+    const unsubscribe = onSnapshot(q, snapshot => {
+      const doc = snapshot.docs[0]
+      if (!doc) return
+
+      const data = doc.data() as StreamData
       if (data.temperature > 30 || data.status.toLowerCase().includes('delay')) {
         setAnomaly(data)
       }
-    }, 5000)
+    })
 
-    return () => clearInterval(interval)
+    return () => unsubscribe()
   }, [])
 
   return (
@@ -35,7 +42,7 @@ export default function AnomalyAlert() {
       </p>
       {anomaly ? (
         <div className="bg-red-900/50 border border-red-700 p-4 rounded-lg text-red-300 font-mono">
-          ⚠️ Anomaly Detected! {anomaly.location} reported {anomaly.temperature}°C / {anomaly.status} at {anomaly.timestamp}
+          ⚠️ Anomaly Detected! {anomaly.location} reported {anomaly.temperature}°C / {anomaly.status} at {new Date(anomaly.timestamp).toLocaleTimeString()}
         </div>
       ) : (
         <div className="text-gray-500 italic">No anomalies detected yet.</div>

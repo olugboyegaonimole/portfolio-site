@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
+  LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,
 } from 'recharts'
-import { collection, addDoc } from 'firebase/firestore'
+import { collection, onSnapshot, query, orderBy, limit } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 
 interface DataPoint {
@@ -16,32 +16,25 @@ export default function RealTimeChart() {
   const [data, setData] = useState<DataPoint[]>([])
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const res = await fetch('/api/stream')
-        const json = await res.json()
+    const q = query(
+      collection(db, 'streamData'),
+      orderBy('timestamp', 'desc'),
+      limit(10)
+    )
 
-        const newPoint: DataPoint = {
-          timestamp: new Date(json.timestamp).toLocaleTimeString(),
-          temperature: json.temperature,
+    const unsubscribe = onSnapshot(q, snapshot => {
+      const points: DataPoint[] = snapshot.docs.map(doc => {
+        const d = doc.data()
+        return {
+          timestamp: new Date(d.timestamp).toLocaleTimeString(),
+          temperature: d.temp,
         }
+      }).reverse()
 
-        // Update local chart
-        setData(prev => [...prev.slice(-9), newPoint])
+      setData(points)
+    })
 
-        // Save to Firebase Firestore
-        await addDoc(collection(db, 'streamData'), {
-          location: json.location,
-          temp: json.temperature,
-          status: json.status,
-          timestamp: json.timestamp,
-        })
-      } catch (err) {
-        console.error('Error fetching or saving stream data:', err)
-      }
-    }, 3000)
-
-    return () => clearInterval(interval)
+    return () => unsubscribe()
   }, [])
 
   return (
