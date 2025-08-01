@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { collection, onSnapshot, query, orderBy, limit } from 'firebase/firestore';
-import { db } from '../firebase'; // <-- adjust path based on your Firebase setup
+import { db } from '../lib/firebase'; // <-- adjust path based on your Firebase setup
 
 type StreamEntry = {
   location: string;
