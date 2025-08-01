@@ -12,6 +12,8 @@ type StreamEntry = {
   temp: number;
   status: string;
   timestamp: string;
+  isAnomaly?: boolean; // Add this line
+
 };
 
 export default function StreamDashboard() {
@@ -25,8 +27,13 @@ export default function StreamDashboard() {
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map((doc) => doc.data() as StreamEntry);
-      setEntries(docs);
+      const docs = snapshot.docs.map((doc) => {
+        const data = doc.data() as StreamEntry;
+        const isAnomaly = data.temp > 23; // 👈 Rule-based anomaly
+        return { ...data, isAnomaly };
+      });
+setEntries(docs);
+
     });
 
     return () => unsubscribe();
@@ -40,13 +47,17 @@ export default function StreamDashboard() {
           <li
             key={idx}
             className={`p-4 border rounded shadow ${
-              entry.status === 'Delayed' ? 'bg-red-100' : 'bg-green-100'
+              entry.isAnomaly ? 'bg-red-200 border-red-500' : 'bg-green-100'
             }`}
           >
             <div>📍 <strong>{entry.location}</strong></div>
             <div>🌡 Temp: {entry.temp}°C</div>
             <div>⏱ Status: {entry.status}</div>
             <div>🕒 {new Date(entry.timestamp).toLocaleString()}</div>
+
+            {entry.isAnomaly && (
+              <div className="text-red-700 font-semibold mt-2">⚠️ Temp exceeds threshold!</div>
+            )}
           </li>
         ))}
       </ul>
