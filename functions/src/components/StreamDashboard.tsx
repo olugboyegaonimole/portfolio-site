@@ -1,3 +1,6 @@
+"use client";
+
+
 // src/components/StreamDashboard.tsx
 
 import { useEffect, useState } from 'react';
