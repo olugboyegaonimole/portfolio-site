@@ -1,8 +1,10 @@
 // Import the functions you need from the SDKs you need
 
 // the two lines below are from chatgpt
-import { initializeApp, getApps, getApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+
 
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
@@ -22,12 +24,8 @@ const firebaseConfig = {
   measurementId: "G-WBBDT0WBD9"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+// ✅ Safely initialize or reuse Firebase app
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// the three lines below are from chatgpt
-// const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
-const db = getFirestore(app)
-
-export { db }
+// ✅ Firestore export
+export const db = getFirestore(app);

@@ -27,7 +27,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold mb-4">Featured Projects</h2>
 
         {/* 🔗 Clickable project card */}
-        <Link href="/projects/supply-chain-monitor" className="block">
+        <Link href="/projects/supply-chain-monitor" prefetch={false} className="block">
           <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
             <h3 className="text-2xl font-semibold mb-2">Global Supply Chain Monitor (Real-Time)</h3>
             <p className="text-gray-300 mb-4">
