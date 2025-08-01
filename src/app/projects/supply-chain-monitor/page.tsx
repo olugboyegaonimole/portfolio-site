@@ -1,9 +1,8 @@
-// src/app/projects/supply-chain-monitor/page.tsx
-
 import Link from 'next/link'
 import RealTimeChart from '@/components/RealTimeChart'
 import StreamingLog from '@/components/StreamingLog'
 import AnomalyAlert from '@/components/AnomalyAlert'
+import StreamDashboard from '@/components/StreamDashboard'  // Added import
 
 export default function SupplyChainMonitorPage() {
   return (
@@ -60,6 +59,12 @@ export default function SupplyChainMonitorPage() {
         {/* Anomaly Detection */}
         <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
           <AnomalyAlert />
+        </section>
+
+        {/* Stream Dashboard */}
+        <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
+          <h2 className="text-2xl font-semibold mb-2">📈 Stream Dashboard</h2>
+          <StreamDashboard />
         </section>
 
         {/* Back link */}
