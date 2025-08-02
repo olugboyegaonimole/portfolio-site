@@ -22,16 +22,13 @@ export default function StreamDashboard() {
     const q = query(
       collection(db, 'streamData'),
       orderBy('timestamp', 'desc'),
-      limit(50) // get more entries to support time filtering
+      limit(50)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const now = Date.now();
-
       const docs = snapshot.docs.map((doc) => {
         const data = doc.data() as StreamEntry;
         const isAnomaly = data.temp > 23;
-
         return { ...data, isAnomaly };
       });
 
@@ -70,7 +67,7 @@ export default function StreamDashboard() {
           <select
             value={locationFilter}
             onChange={(e) => setLocationFilter(e.target.value)}
-            className="p-2 border rounded"
+            className="p-2 border rounded bg-gray-800 text-white"
           >
             <option value="All">All</option>
             {uniqueLocations.map((loc) => (
@@ -87,7 +84,7 @@ export default function StreamDashboard() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="p-2 border rounded"
+            className="p-2 border rounded bg-gray-800 text-white"
           >
             <option value="All">All</option>
             {uniqueStatuses.map((status) => (
@@ -104,7 +101,7 @@ export default function StreamDashboard() {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value as 'all' | '10min' | '1hr')}
-            className="p-2 border rounded"
+            className="p-2 border rounded bg-gray-800 text-white"
           >
             <option value="all">All</option>
             <option value="10min">Last 10 min</option>
@@ -119,18 +116,16 @@ export default function StreamDashboard() {
           <li
             key={idx}
             className={`p-4 border rounded shadow ${
-              entry.isAnomaly ? 'bg-red-200 border-red-500' : 'bg-green-100'
+              entry.isAnomaly ? 'bg-red-800 text-white border-red-400' : 'bg-green-800 text-white border-green-400'
             }`}
           >
-            <div>
-              📍 <strong>{entry.location}</strong>
-            </div>
+            <div>📍 <strong>{entry.location}</strong></div>
             <div>🌡 Temp: {entry.temp}°C</div>
             <div>⏱ Status: {entry.status}</div>
             <div>🕒 {new Date(entry.timestamp).toLocaleString()}</div>
 
             {entry.isAnomaly && (
-              <div className="text-red-700 font-semibold mt-2">⚠️ Temp exceeds threshold!</div>
+              <div className="text-yellow-300 font-semibold mt-2">⚠️ Temp exceeds threshold!</div>
             )}
           </li>
         ))}
