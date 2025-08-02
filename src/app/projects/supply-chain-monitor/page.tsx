@@ -4,6 +4,7 @@ import StreamingLog from '@/components/StreamingLog'
 import AnomalyAlert from '@/components/AnomalyAlert'
 import StreamDashboard from '@/components/StreamDashboard'  // Added import
 import StatusBarChart from '@/components/StatusBarChart'
+import AnomalyPieChart from '@/components/AnomalyPieChart'
 
 
 export default function SupplyChainMonitorPage() {
@@ -63,15 +64,20 @@ export default function SupplyChainMonitorPage() {
           <AnomalyAlert />
         </section>
 
-        {/* Stream Dashboard */}
+        {/* Anomaly PieChart */}
         <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-semibold mb-2">📈 Stream Dashboard</h2>
-          <StreamDashboard />
+          <AnomalyPieChart />
         </section>
 
         {/* Status BarChart */}
         <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
           <StatusBarChart />
+        </section>
+
+        {/* Stream Dashboard */}
+        <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
+          <h2 className="text-2xl font-semibold mb-2">📈 Stream Dashboard</h2>
+          <StreamDashboard />
         </section>
 
         {/* Back link */}
