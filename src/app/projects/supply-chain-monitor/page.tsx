@@ -3,6 +3,8 @@ import RealTimeChart from '@/components/RealTimeChart'
 import StreamingLog from '@/components/StreamingLog'
 import AnomalyAlert from '@/components/AnomalyAlert'
 import StreamDashboard from '@/components/StreamDashboard'  // Added import
+import StatusBarChart from '@/components/StatusBarChart'
+
 
 export default function SupplyChainMonitorPage() {
   return (
@@ -65,6 +67,11 @@ export default function SupplyChainMonitorPage() {
         <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
           <h2 className="text-2xl font-semibold mb-2">📈 Stream Dashboard</h2>
           <StreamDashboard />
+        </section>
+
+        {/* Status BarChart */}
+        <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
+          <StatusBarChart />
         </section>
 
         {/* Back link */}
