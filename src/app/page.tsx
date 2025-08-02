@@ -42,7 +42,7 @@ export default function Home() {
             <p className="text-indigo-400 underline mt-4">View Project &rarr;</p>
           </article>
         </Link>
-
+{/*
         <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
           <h3 className="text-2xl font-semibold mb-2">Smart Energy Analytics Platform</h3>
           <p className="text-gray-300 mb-4">
@@ -54,6 +54,8 @@ export default function Home() {
             <li>Integration with GCP Vertex AI for demand forecasting</li>
           </ul>
         </article>
+*/}
+
       </section>
 
       <section className="max-w-3xl mt-12 text-center">
