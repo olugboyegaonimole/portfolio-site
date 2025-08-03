@@ -31,13 +31,14 @@ export default function Home() {
           <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
             <h3 className="text-2xl font-semibold mb-2">Global Supply Chain Monitor (Real-Time)</h3>
             <p className="text-gray-300 mb-4">
-              A scalable cloud-based data platform that ingests real-time global shipping data, integrates IoT and satellite feeds, and provides actionable dashboards for supply chain resilience.
+              A cloud-based real-time monitoring dashboard that ingests IoT logistics data and visualizes temperature anomalies across global supply chain routes for operational awareness.
             </p>
             <ul className="list-disc list-inside text-gray-400">
-              <li>Streaming data ingestion with Apache Kafka and Azure Event Hubs</li>
-              <li>Data lakehouse architecture on GCP BigQuery & Azure Synapse</li>
-              <li>Power BI and Looker dashboards for executive insights</li>
-              <li>Automated anomaly detection using Python and ML models</li>
+              <li>Real-time data ingestion with Firebase Firestore</li>
+              <li>Frontend built with React (Next.js) and deployed via Vercel</li>
+              <li>Rule-based anomaly detection implemented with TypeScript</li>
+              <li>Interactive visualizations using Recharts and Tailwind CSS</li>
+              <li>Filtering by location, status, and time range (10min / 1hr)</li>
             </ul>
             <p className="text-indigo-400 underline mt-4">View Project &rarr;</p>
           </article>
