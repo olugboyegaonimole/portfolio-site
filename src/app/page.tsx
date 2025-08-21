@@ -43,6 +43,17 @@ export default function Home() {
             <p className="text-indigo-400 underline mt-4">View Project &rarr;</p>
           </article>
         </Link>
+
+        <Link href="/projects/blog-summarizer" prefetch={false} className="block">
+          <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
+            <h3 className="text-2xl font-semibold mb-2">📰 Blog Summarizer</h3>
+            <p className="text-gray-300 mb-4">
+              A web app that summarizes blogs into concise overviews using NLP, FastAPI, and a Next.js frontend.
+            </p>
+            <p className="text-indigo-400 underline mt-4">View Project →</p>
+          </article>
+        </Link>
+
 {/*
         <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
           <h3 className="text-2xl font-semibold mb-2">Smart Energy Analytics Platform</h3>
