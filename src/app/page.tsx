@@ -85,6 +85,22 @@ export default function Home() {
         </Link>
 
 
+        <Link href="/projects/game" prefetch={false} className="block">
+          <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
+            <h3 className="text-2xl font-semibold mb-2">🎮 Vocabulary Game</h3>
+            <p className="text-gray-300 mb-4">
+              A synonym-based vocabulary game with 7 levels of increasing difficulty, powered by a FastAPI backend and React frontend.
+            </p>
+            <ul className="list-disc list-inside text-gray-400">
+              <li>FastAPI backend deployed on Render</li>
+              <li>React + Next.js frontend with Tailwind CSS</li>
+              <li>7 difficulty levels, 50 words per level</li>
+            </ul>
+            <p className="text-indigo-400 underline mt-4">View Project →</p>
+          </article>
+        </Link>
+
+
 
 {/*
         <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
