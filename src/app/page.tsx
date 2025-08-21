@@ -101,6 +101,18 @@ export default function Home() {
         </Link>
 
 
+        <Link href="/projects/joke-generator" prefetch={false} className="block">
+          <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
+            <h3 className="text-2xl font-semibold mb-2">😂 Joke Generator</h3>
+            <p className="text-gray-300 mb-4">
+              A fun app that delivers random clean jokes via FastAPI + Next.js.
+            </p>
+            <p className="text-indigo-400 underline mt-4">View Project →</p>
+          </article>
+        </Link>
+
+
+
 
 {/*
         <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
