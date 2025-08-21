@@ -1,72 +1,64 @@
-'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function ChatbotPage() {
-  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([])
-  const [input, setInput] = useState("")
-  const [loading, setLoading] = useState(false)
-
-  async function sendMessage() {
-    if (!input.trim()) return
-    const userMessage = { sender: "You", text: input }
-    setMessages([...messages, userMessage])
-    setInput("")
-    setLoading(true)
-
-    try {
-      const res = await fetch("https://your-chatbot.onrender.com/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage.text })
-      })
-      const data = await res.json()
-      setMessages(prev => [...prev, { sender: "Bot", text: data.response }])
-    } catch (err) {
-      setMessages(prev => [...prev, { sender: "Bot", text: "⚠️ Error getting response." }])
-    }
-    setLoading(false)
-  }
-
   return (
     <main className="min-h-screen bg-gray-950 text-white px-6 py-12">
-      <div className="max-w-3xl mx-auto space-y-8">
+      <div className="max-w-5xl mx-auto space-y-12">
 
         {/* Header */}
         <header className="text-center">
           <h1 className="text-4xl font-extrabold mb-2">💬 AI Chatbot</h1>
-          <p className="text-gray-400 max-w-xl mx-auto text-lg">
-            Chat with an AI powered by BlenderBot (400M-distill).
+          <p className="text-gray-400 max-w-3xl mx-auto text-lg">
+            An intelligent chatbot powered by BlenderBot (400M-distill), deployed with FastAPI on Render.
           </p>
         </header>
 
-        {/* Chat Box */}
-        <div className="bg-gray-900 p-6 rounded-xl shadow-lg h-96 overflow-y-auto">
-          {messages.map((msg, i) => (
-            <p key={i} className={msg.sender === "You" ? "text-indigo-400" : "text-green-400"}>
-              <strong>{msg.sender}:</strong> {msg.text}
-            </p>
+        {/* Tech Stack */}
+        <section className="flex flex-wrap justify-center gap-3">
+          {[
+            'FastAPI',
+            'Python',
+            'HuggingFace Transformers',
+            'Render',
+            'GitHub Pages / Static Hosting',
+            'Next.js',
+            'TailwindCSS'
+          ].map((tech) => (
+            <span
+              key={tech}
+              className="bg-indigo-700 text-sm px-3 py-1 rounded-full font-medium"
+            >
+              {tech}
+            </span>
           ))}
-          {loading && <p className="italic text-gray-400">Bot is typing...</p>}
-        </div>
+        </section>
 
-        {/* Input */}
-        <div className="flex gap-2">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            className="flex-1 bg-gray-800 rounded-lg px-4 py-2 outline-none text-white"
-            placeholder="Type a message..."
-          />
-          <button
-            onClick={sendMessage}
-            className="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg font-semibold"
+        {/* Live Demo */}
+        <section className="bg-gray-900 p-6 rounded-xl shadow-lg text-center">
+          <h2 className="text-2xl font-semibold mb-4">🚀 Try it Live</h2>
+          <p className="text-gray-400 mb-4">
+            Open the chatbot in a new tab and start chatting.
+          </p>
+          <a
+            href="https://olugboyegaonimole.github.io/olu-chatbot/"   // 👉 replace with the static hosting URL for chatbot.html
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg font-semibold transition"
           >
-            Send
-          </button>
-        </div>
+            Open Chatbot
+          </a>
+        </section>
+
+        {/* How It Works */}
+        <section className="bg-gray-900 p-6 rounded-xl shadow-lg">
+          <h2 className="text-2xl font-semibold mb-2">⚙️ How It Works</h2>
+          <ul className="list-disc list-inside text-gray-400 space-y-2">
+            <li>User opens the chatbot frontend (static webpage).</li>
+            <li>The frontend sends a POST request to the FastAPI backend hosted on Render.</li>
+            <li>Backend generates a response using BlenderBot (400M-distill).</li>
+            <li>The response is returned and displayed in the chat window.</li>
+          </ul>
+        </section>
 
         {/* Back link */}
         <div className="text-center mt-12">
@@ -76,5 +68,5 @@ export default function ChatbotPage() {
         </div>
       </div>
     </main>
-  )
+  );
 }
