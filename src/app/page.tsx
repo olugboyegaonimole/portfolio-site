@@ -69,6 +69,22 @@ export default function Home() {
           </article>
         </Link>
 
+        <Link href="/projects/companion" prefetch={false} className="block">
+          <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
+            <h3 className="text-2xl font-semibold mb-2">📘 Companion</h3>
+            <p className="text-gray-300 mb-4">
+              A search-friendly educational tool that helps students explore synonyms, idioms, proverbs, grammar tips, and literary devices — all in one place.
+            </p>
+            <ul className="list-disc list-inside text-gray-400">
+              <li>FastAPI backend with PostgreSQL</li>
+              <li>Full-text + fuzzy search across multiple categories</li>
+              <li>Frontend built with Next.js + Tailwind CSS</li>
+            </ul>
+            <p className="text-indigo-400 underline mt-4">View Project →</p>
+          </article>
+        </Link>
+
+
 
 {/*
         <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
