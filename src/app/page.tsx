@@ -54,6 +54,22 @@ export default function Home() {
           </article>
         </Link>
 
+        <Link href="/projects/chatbot" prefetch={false} className="block">
+          <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
+            <h3 className="text-2xl font-semibold mb-2">💬 AI Chatbot</h3>
+            <p className="text-gray-300 mb-4">
+              A conversational AI powered by BlenderBot (400M-distill), deployed with FastAPI on Render and integrated with a Next.js frontend.
+            </p>
+            <ul className="list-disc list-inside text-gray-400">
+              <li>FastAPI backend hosted on Render</li>
+              <li>Frontend built with Next.js + Tailwind CSS</li>
+              <li>Interactive chat interface with streaming responses</li>
+            </ul>
+            <p className="text-indigo-400 underline mt-4">View Project →</p>
+          </article>
+        </Link>
+
+
 {/*
         <article className="bg-gray-900 rounded-lg p-6 shadow-lg">
           <h3 className="text-2xl font-semibold mb-2">Smart Energy Analytics Platform</h3>
