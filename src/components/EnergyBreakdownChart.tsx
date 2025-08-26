@@ -1,53 +1,50 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { collection, onSnapshot, orderBy, query, limit } from "firebase/firestore"
-import { db } from "../lib/firebase"
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { useEffect, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { energyDb } from "@/lib/firebaseEnergy";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
-type ConsumptionEntry = {
-  region: string
-  demand_kwh: number
-}
-
-const COLORS = ["#fbbf24", "#60a5fa", "#ef4444", "#34d399", "#a78bfa"]
+type EnergyDoc = {
+  region: string;
+  demand_kwh: number;
+};
 
 export default function EnergyBreakdownChart() {
-  const [data, setData] = useState<{ name: string; value: number }[]>([])
+  const [data, setData] = useState<{ name: string; value: number }[]>([]);
 
   useEffect(() => {
-    const q = query(collection(db, "raw_consumption"), orderBy("ts", "desc"), limit(50))
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const regionTotals: Record<string, number> = {}
+    const unsub = onSnapshot(collection(energyDb, "raw_consumption"), (snapshot) => {
+      const regionTotals: Record<string, number> = {};
 
       snapshot.docs.forEach((doc) => {
-        const d = doc.data() as ConsumptionEntry
-        regionTotals[d.region] = (regionTotals[d.region] || 0) + d.demand_kwh
-      })
+        const d = doc.data() as EnergyDoc;
+        regionTotals[d.region] = (regionTotals[d.region] || 0) + d.demand_kwh;
+      });
 
-      setData(Object.entries(regionTotals).map(([region, total]) => ({
-        name: region,
-        value: total,
-      })))
-    })
+      setData(
+        Object.entries(regionTotals).map(([region, value]) => ({
+          name: region,
+          value,
+        }))
+      );
+    });
 
-    return () => unsubscribe()
-  }, [])
+    return () => unsub();
+  }, []);
+
+  const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#a4de6c"];
 
   return (
-    <div className="w-full h-80">
-      <ResponsiveContainer>
-        <PieChart>
-          <Pie data={data} cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
-            {data.map((_, idx) => (
-              <Cell key={idx} fill={COLORS[idx % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip contentStyle={{ backgroundColor: "#1f2937", border: "none", borderRadius: "0.5rem" }} />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
-    </div>
-  )
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie data={data} dataKey="value" nameKey="name" outerRadius={100}>
+          {data.map((_, idx) => (
+            <Cell key={idx} fill={COLORS[idx % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+      </PieChart>
+    </ResponsiveContainer>
+  );
 }
