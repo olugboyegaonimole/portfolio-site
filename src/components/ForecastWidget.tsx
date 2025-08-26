@@ -6,7 +6,7 @@ import { energyDb } from "@/lib/firebaseEnergy"; // ✅ use energy project
 
 type ConsumptionEntry = {
   demand_kwh: number;
-  ts: any; // Firestore timestamp
+  ts: string | Date; // Firestore timestamp
 };
 
 export default function ForecastWidget() {
@@ -37,7 +37,7 @@ export default function ForecastWidget() {
         // Simple moving average forecast
         const avgDemand =
           docs.reduce((acc, d) => acc + d.demand_kwh, 0) / docs.length;
-        const forecastDemand = Math.round(avgDemand + diff * 0.5); // weighted by momentum
+        // const forecastDemand = Math.round(avgDemand + diff * 0.5); // weighted by momentum
 
         setForecast({
           trend: `Demand is ${trend}`,
