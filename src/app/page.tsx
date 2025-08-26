@@ -44,7 +44,7 @@ export default function Home() {
           </article>
         </Link>
 
-        <Link href="/projects/energy-analytics" prefetch={false} className="block">
+        <Link href="/projects/energy-forecast" prefetch={false} className="block">
           <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
             <h3 className="text-2xl font-semibold mb-2">⚡ Energy Consumption & Predictive Analytics</h3>
             <p className="text-gray-300 mb-4">
