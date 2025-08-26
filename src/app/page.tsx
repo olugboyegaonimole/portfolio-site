@@ -26,6 +26,26 @@ export default function Home() {
       <section className="max-w-4xl space-y-8 text-left">
         <h2 className="text-3xl font-bold mb-4">Featured Projects</h2>
 
+        <Link href="/projects/energy-analytics" prefetch={false} className="block">
+          <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
+            <h3 className="text-2xl font-semibold mb-2">⚡ Energy Consumption & Predictive Analytics</h3>
+            <p className="text-gray-300 mb-4">
+              A platform for utility companies to analyze energy consumption patterns using IoT sensor data 
+              and predictive analytics, with forecasts for demand optimization.
+            </p>
+            <ul className="list-disc list-inside text-gray-400">
+              <li>Cloud Functions simulate hourly/daily energy demand</li>
+              <li>Firestore as raw + aggregated storage</li>
+              <li>Predictive forecasts via Vertex AI or Cloud Function ML</li>
+              <li>Interactive charts with Next.js, Recharts, and Tailwind CSS</li>
+            </ul>
+            <p className="text-indigo-400 underline mt-4">View Project &rarr;</p>
+          </article>
+        </Link>
+
+
+        
+        
         {/* 🔗 Clickable project card */}
         <Link href="/projects/supply-chain-monitor" prefetch={false} className="block">
           <article className="bg-gray-900 rounded-lg p-6 shadow-lg hover:bg-indigo-900 transition-colors cursor-pointer">
