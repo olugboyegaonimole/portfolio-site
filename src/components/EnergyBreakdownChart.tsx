@@ -16,12 +16,22 @@ export default function EnergyBreakdownChart() {
   const [data, setData] = useState<BreakdownData[]>([])
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(energyDb, "breakdown"), (snapshot) => {
-      const docs = snapshot.docs.map((doc) => {
+    const unsubscribe = onSnapshot(collection(energyDb, "raw_consumption"), (snapshot) => {
+      const counts: Record<string, number> = {}
+
+      snapshot.docs.forEach((doc) => {
         const d = doc.data()
-        return { name: d.type, value: d.value } as BreakdownData
+        if (d.energy_type && d.demand_kwh) {
+          counts[d.energy_type] = (counts[d.energy_type] || 0) + d.demand_kwh
+        }
       })
-      setData(docs)
+
+      const formatted: BreakdownData[] = Object.keys(counts).map((key) => ({
+        name: key,
+        value: counts[key],
+      }))
+
+      setData(formatted)
     })
 
     return () => unsubscribe()
