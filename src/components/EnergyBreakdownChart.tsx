@@ -3,41 +3,32 @@
 import { useEffect, useState } from "react"
 import { collection, onSnapshot } from "firebase/firestore"
 import { energyDb } from "@/lib/firebaseEnergy"
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts"
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts"
 
-type Entry = {
-  energy_type: string
-  demand_kwh: number
+type BreakdownData = {
+  name: string
+  value: number
 }
 
-const COLORS = ["#8884d8", "#82ca9d", "#ffc658"]
+const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042"]
 
 export default function EnergyBreakdownChart() {
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<BreakdownData[]>([])
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(energyDb, "raw_consumption"), (snapshot) => {
-      const docs = snapshot.docs.map((doc) => doc.data() as Entry)
-
-      // Aggregate demand by energy_type
-      const grouped: { [key: string]: number } = {}
-      docs.forEach((d) => {
-        grouped[d.energy_type] = (grouped[d.energy_type] || 0) + d.demand_kwh
+    const unsubscribe = onSnapshot(collection(energyDb, "breakdown"), (snapshot) => {
+      const docs = snapshot.docs.map((doc) => {
+        const d = doc.data()
+        return { name: d.type, value: d.value } as BreakdownData
       })
-
-      const chartData = Object.entries(grouped).map(([type, total]) => ({
-        name: type,
-        value: total
-      }))
-
-      setData(chartData)
+      setData(docs)
     })
 
     return () => unsubscribe()
   }, [])
 
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer width="100%" height={300}>
       <PieChart>
         <Pie
           data={data}
@@ -49,12 +40,11 @@ export default function EnergyBreakdownChart() {
           fill="#8884d8"
           label
         >
-          {data.map((_, index) => (
-            <Cell key={index} fill={COLORS[index % COLORS.length]} />
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
         <Tooltip />
-        <Legend />
       </PieChart>
     </ResponsiveContainer>
   )

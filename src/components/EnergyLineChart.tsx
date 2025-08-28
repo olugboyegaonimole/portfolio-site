@@ -5,30 +5,30 @@ import { collection, onSnapshot, orderBy, query, limit } from "firebase/firestor
 import { energyDb } from "@/lib/firebaseEnergy"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
-type Entry = {
-  demand_kwh: number
+type EnergyData = {
   ts: string
+  demand_kwh: number
+  predicted_kwh?: number
 }
 
 export default function EnergyLineChart() {
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<EnergyData[]>([])
 
   useEffect(() => {
     const q = query(collection(energyDb, "raw_consumption"), orderBy("ts", "desc"), limit(20))
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map((doc) => doc.data() as Entry)
+      const docs = snapshot.docs.map((doc) => {
+        const d = doc.data()
+        return {
+          ts: d.ts,
+          demand_kwh: d.demand_kwh,
+          predicted_kwh: d.predicted_kwh ?? undefined,
+        } as EnergyData
+      })
 
-      // Reverse for chronological order
-      const chronological = docs.reverse()
-
-      // Add predicted series (simple +10% for now)
-      const withPrediction = chronological.map((d) => ({
-        ...d,
-        predicted: Math.round(d.demand_kwh * 1.1)
-      }))
-
-      setData(withPrediction)
+      // reverse so earliest is left-most
+      setData(docs.reverse())
     })
 
     return () => unsubscribe()
@@ -37,13 +37,13 @@ export default function EnergyLineChart() {
   return (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="ts" hide /> {/* Hide timestamps for clarity */}
-        <YAxis />
+        <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+        <XAxis dataKey="ts" stroke="#aaa" />
+        <YAxis stroke="#aaa" />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="demand_kwh" stroke="#82ca9d" name="Actual Demand" />
-        <Line type="monotone" dataKey="predicted" stroke="#8884d8" name="Predicted Demand" strokeDasharray="5 5" />
+        <Line type="monotone" dataKey="predicted_kwh" stroke="#8884d8" name="Predicted Demand" />
       </LineChart>
     </ResponsiveContainer>
   )
