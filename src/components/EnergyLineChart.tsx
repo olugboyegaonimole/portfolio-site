@@ -1,43 +1,50 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { collection, onSnapshot, query, orderBy, limit } from "firebase/firestore";
-import { energyDb } from "@/lib/firebaseEnergy";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { useEffect, useState } from "react"
+import { collection, onSnapshot, orderBy, query, limit } from "firebase/firestore"
+import { energyDb } from "@/lib/firebaseEnergy"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
-type EnergyDoc = {
-  demand_kwh: number;
-  ts: string;
-  region: string;
-};
+type Entry = {
+  demand_kwh: number
+  ts: string
+}
 
 export default function EnergyLineChart() {
-  const [data, setData] = useState<EnergyDoc[]>([]);
+  const [data, setData] = useState<any[]>([])
 
   useEffect(() => {
-    const q = query(
-      collection(energyDb, "raw_consumption"),
-      orderBy("ts", "desc"),
-      limit(50)
-    );
+    const q = query(collection(energyDb, "raw_consumption"), orderBy("ts", "desc"), limit(20))
 
-    const unsub = onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map((doc) => doc.data() as EnergyDoc);
-      setData(docs.reverse()); // Reverse so earliest is first
-    });
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const docs = snapshot.docs.map((doc) => doc.data() as Entry)
 
-    return () => unsub();
-  }, []);
+      // Reverse for chronological order
+      const chronological = docs.reverse()
+
+      // Add predicted series (simple +10% for now)
+      const withPrediction = chronological.map((d) => ({
+        ...d,
+        predicted: Math.round(d.demand_kwh * 1.1)
+      }))
+
+      setData(withPrediction)
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer width="100%" height={400}>
       <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="ts" tick={{ fontSize: 12 }} />
+        <XAxis dataKey="ts" hide /> {/* Hide timestamps for clarity */}
         <YAxis />
         <Tooltip />
-        <Line type="monotone" dataKey="demand_kwh" stroke="#82ca9d" />
+        <Legend />
+        <Line type="monotone" dataKey="demand_kwh" stroke="#82ca9d" name="Actual Demand" />
+        <Line type="monotone" dataKey="predicted" stroke="#8884d8" name="Predicted Demand" strokeDasharray="5 5" />
       </LineChart>
     </ResponsiveContainer>
-  );
+  )
 }
