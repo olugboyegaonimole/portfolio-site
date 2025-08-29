@@ -6,14 +6,19 @@ import { energyDb } from "@/lib/firebaseEnergy" // ✅ use energy project
 
 type ConsumptionEntry = {
   demand_kwh: number
-  ts: string // Use string for ISO timestamp
+  ts: string
+  region: string
+  energy_type: string
 }
 
 export default function ForecastWidget() {
   const [forecast, setForecast] = useState({
     trend: "Loading...",
     risk: "Loading...",
-    recommendation: "Loading..."
+    recommendation: "Loading...",
+    date: "",
+    region: "",
+    energyType: ""
   })
 
   useEffect(() => {
@@ -32,7 +37,10 @@ export default function ForecastWidget() {
         setForecast({
           trend: `Demand is ${trend}`,
           risk: diff > 100 ? "⚠️ Risk of sudden spike in demand" : "✅ Stable demand",
-          recommendation: diff > 100 ? "Consider load balancing or reserve capacity" : "Maintain current allocation"
+          recommendation: diff > 100 ? "Consider load balancing or reserve capacity" : "Maintain current allocation",
+          date: new Date(latest.ts).toLocaleString(), // current date from Firestore timestamp
+          region: latest.region,
+          energyType: latest.energy_type
         })
       }
     })
@@ -44,6 +52,9 @@ export default function ForecastWidget() {
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold">🔮 Forecast Insights</h2>
       <div className="bg-indigo-900 rounded-lg p-6 space-y-3 shadow-lg">
+        <div><strong className="text-indigo-300">Date:</strong> {forecast.date}</div>
+        <div><strong className="text-indigo-300">Region:</strong> {forecast.region}</div>
+        <div><strong className="text-indigo-300">Energy Type:</strong> {forecast.energyType}</div>
         <div><strong className="text-indigo-300">Trend:</strong> {forecast.trend}</div>
         <div><strong className="text-indigo-300">Risk:</strong> {forecast.risk}</div>
         <div><strong className="text-indigo-300">Recommendation:</strong> {forecast.recommendation}</div>
