@@ -20,8 +20,16 @@ type EnergyDoc = {
   region: string;
 };
 
+// ✅ Extended type for chart data
+type ChartData = {
+  ts: string;
+  actual_kwh: number;
+  forecasted_kwh: number;
+  region: string;
+};
+
 export default function EnergyLineChart() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<ChartData[]>([]);
 
   useEffect(() => {
     const q = query(
@@ -33,11 +41,11 @@ export default function EnergyLineChart() {
     const unsub = onSnapshot(q, (snapshot) => {
       const docs = snapshot.docs.map((doc) => doc.data() as EnergyDoc);
 
-      // ✅ Add a mocked forecasted_kwh for each doc
-      const enriched = docs.map((d) => ({
-        ...d,
+      const enriched: ChartData[] = docs.map((d) => ({
+        ts: d.ts,
+        region: d.region,
         actual_kwh: d.demand_kwh,
-        forecasted_kwh: d.demand_kwh + (Math.random() * 100 - 50), // +/- 50 kWh variation
+        forecasted_kwh: d.demand_kwh + (Math.random() * 100 - 50), // mock forecast
       }));
 
       setData(enriched.reverse()); // earliest first
