@@ -31,7 +31,7 @@ export default function EnergyAnalyticsPage() {
             <h2 className="text-2xl font-semibold mb-2">🔎 Demand Breakdown</h2> 
             <p className="text-gray-400 mb-4"> Average energy demand segmented by weekday or source type (solar, wind, coal). </p> 
             <EnergyBreakdownChart /> 
-        </section> 
+        </section>  
         
         {/* Forecast Widget */} 
         <section className="bg-gray-900 p-6 rounded-xl shadow-lg"> 
