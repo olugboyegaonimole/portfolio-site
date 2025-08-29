@@ -3,7 +3,16 @@
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, query, orderBy, limit } from "firebase/firestore";
 import { energyDb } from "@/lib/firebaseEnergy";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
 type EnergyDoc = {
   demand_kwh: number;
@@ -11,8 +20,16 @@ type EnergyDoc = {
   region: string;
 };
 
+// ✅ Extended type for chart data
+type ChartData = {
+  ts: string;
+  actual_kwh: number;
+  forecasted_kwh: number;
+  region: string;
+};
+
 export default function EnergyLineChart() {
-  const [data, setData] = useState<EnergyDoc[]>([]);
+  const [data, setData] = useState<ChartData[]>([]);
 
   useEffect(() => {
     const q = query(
@@ -23,7 +40,15 @@ export default function EnergyLineChart() {
 
     const unsub = onSnapshot(q, (snapshot) => {
       const docs = snapshot.docs.map((doc) => doc.data() as EnergyDoc);
-      setData(docs.reverse()); // Reverse so earliest is first
+
+      const enriched: ChartData[] = docs.map((d) => ({
+        ts: d.ts,
+        region: d.region,
+        actual_kwh: d.demand_kwh,
+        forecasted_kwh: d.demand_kwh + (Math.random() * 100 - 50), // mock forecast
+      }));
+
+      setData(enriched.reverse()); // earliest first
     });
 
     return () => unsub();
@@ -36,7 +61,9 @@ export default function EnergyLineChart() {
         <XAxis dataKey="ts" tick={{ fontSize: 12 }} />
         <YAxis />
         <Tooltip />
-        <Line type="monotone" dataKey="demand_kwh" stroke="#82ca9d" />
+        <Legend />
+        <Line type="monotone" dataKey="actual_kwh" stroke="#82ca9d" name="Actual Consumption" />
+        <Line type="monotone" dataKey="forecasted_kwh" stroke="#8884d8" name="Forecasted Consumption" />
       </LineChart>
     </ResponsiveContainer>
   );
