@@ -40,7 +40,7 @@ export default function ChatbotPage() {
             Open the chatbot in a new tab and start chatting.
           </p>
           <a
-            href="https://olugboyegaonimole.github.io/olu-chatbot/"   // 👉 replace with the static hosting URL for chatbot.html
+            href="https://olugboyegaonimole.github.io/olu-chatbot-render-frontend/"   // 👉 replace with the static hosting URL for chatbot.html
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg font-semibold transition"
